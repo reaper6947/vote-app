@@ -20,8 +20,10 @@ const checkHttps = require("./route/httpsUpgrade");
 // Specify a directory to serve static files
 app.use(express.static("public"));
 app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname + "/public"));
+  res.render(`${path.join(__dirname + "/public")}`);
 });
+
+app.set("view engine", "ejs");
 
 var usersArr = [];
 io.sockets.on("connection", function (socket) {
@@ -74,6 +76,12 @@ io.sockets.on("connection", function (socket) {
     
   });
 */
+socket.on("checked", function (data) {
+  io.emit("checked", data);
+});
+  
+  
+  
   app.get("/set/user", function (req, res) {
     res.status(200).sendFile(path.join(__dirname, "public", "user.html"));
   });

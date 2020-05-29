@@ -35,62 +35,51 @@ function getChats() {
 
 //getChats();
 
-
-/*
-formEl.addEventListener("submit", (e) => {
-  e.preventDefault();
-  var sendMsg = textInputEl.value.trim();
-  if (sendMsg != 0 && sendMsg.length < 100) {
-    socket.emit("chat_message", textInputEl.value);
-    socket.emit("typing", "");
-    textInputEl.value = "";
-    submitBtn.classList.add("inv");
-    console.log(typeof sendMsg);
-    return false;
+//sends info about option clicked
+const checkRad = function (item) {
+  class question {
+    constructor(number) {
+      this.number = number;
+      (this.a = []), (this.b = []), (this.c = []), (this.d = []);
+    }
   }
-  else {
-    alert("error: text too big");
-    textInputEl.value = "";
+
+  if (item.checked) {
+    // console.log(`${item.getAttribute("option")} of question ${item.name}  is checked by ${typingEl.textContent}`);
+    const obj = new question(item.name);
+    if (item.getAttribute("option") === "a") {
+      obj.a.push(typingEl.textContent);
+      socket.emit("checked", obj);
+    } else if (item.getAttribute("option") === "b") {
+      obj.b.push(typingEl.textContent);
+      socket.emit("checked", obj);
+    } else if (item.getAttribute("option") === "c") {
+      obj.c.push(typingEl.textContent);
+      socket.emit("checked", obj);
+    } else {
+      obj.d.push(typingEl.textContent);
+      socket.emit("checked", obj);
+    }
   }
-});
-*/
+};
 
-/*
-// append the chat text message
-socket.on("chat_message", function (msg) {
-  let child = document.createElement("li");
-  child.classList.add(
-    "list-group-item",
-    "list-group-item-dark",
-    "overflow-auto",
-    "d-flex",
-    "border-0",
-    "message-cl"
-  );
-  child.innerHTML = msg;
-  messagesEl.appendChild(child);
-
-  //scroll down
-  window.scrollTo(0, document.body.clientHeight);
+socket.on("checked", (data) => {
+  console.log(data);
 });
-*/
 
 // append text if someone is online
 socket.on("is_online", function (username) {
- toastDiv.innerHTML = `${username}`;
-  $('.toast').toast('show');
+  toastDiv.innerHTML = `${username}`;
+  $(".toast").toast("show");
 });
-
 
 //sends usrsinfo
 socket.emit("users", "");
 //receives info about users
 socket.on("users", function (data) {
- // console.log(data);
+  // console.log(data);
   usersNo.innerText = `${data.length}`;
 });
-
-
 
 const validUser = function (userInfo) {
   let userId = userInfo.trim();
@@ -109,14 +98,19 @@ const validUser = function (userInfo) {
   }
 };
 // ask username
-if (typeof localStorage.getItem("user-name") !== "undefined" && localStorage.getItem("user-name") !== null) {
+if (
+  typeof localStorage.getItem("user-name") !== "undefined" &&
+  localStorage.getItem("user-name") !== null
+) {
   var username = localStorage.getItem("user-name");
-//  textInputEl.setAttribute("placeholder", `type as ${username}`);
+  //  textInputEl.setAttribute("placeholder", `type as ${username}`);
+  typingEl.textContent = username;
   socket.emit("username", username);
 } else {
   var userPrompt = prompt("Please tell me your name");
   var username = validUser(userPrompt);
   localStorage.setItem("user-name", username);
-//  textInputEl.setAttribute("placeholder", `type as ${username}`);
+  typingEl.textContent = username;
+  //  textInputEl.setAttribute("placeholder", `type as ${username}`);
   socket.emit("username", username);
 }
