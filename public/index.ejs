@@ -34,10 +34,10 @@
         users <span class="badge badge-primary badge-pill " id="user-txt">0</span>
       </button>
     </li>
-    
-    <% for ( var i = 0 ; i < 3; i++) {  %>
+
+    <% for ( var i = 1 ; i < 3; i++) {  %>
     <div class="card text-white bg-dark m-2 ">
-      <div class="card-header">Question-<%- i+1 %></div>
+      <div class="card-header">Question-<%- i %></div>
       <div class="card-body p-0 m-0">
         <div class="card-group">
           <div class="card bg-dark  m-0">
@@ -48,10 +48,13 @@
                   <h6>
                     a
                   </h6>
-                  <input class="" type="radio" name="<%- i+1 %>" id="<%- i+1 %>a"  option = "a" onclick="checkRad(this)">
+                  <input class="" type="checkbox" name="<%- i %>" value="a" id="<%- i+1 %>a" onclick="checkSend(this)">
                   <label class="list-inline m-1">
-                    <li class="list-inline-item">test</li>
-                    
+                    <ul id="a<%- i %>" class="m-0 p-0 list-inline">
+
+                    </ul>
+
+
                   </label>
                 </div>
               </div>
@@ -65,10 +68,12 @@
                   <h6>
                     b
                   </h6>
-                  <input class="" type="radio" name="<%- i+1 %>" id="<%- i+1 %>b"  option = "b" onclick="checkRad(this)">
+                  <input class="" type="checkbox" name="<%- i %>" value="b" id="<%- i+1 %>b" onclick="checkSend(this)">
                   <label class="list-inline m-1">
-                    <li class="list-inline-item">test</li>
-                    
+                    <ul id="b<%- i %>" class="m-0 p-0 list-inline">
+
+                    </ul>
+
                   </label>
                 </div>
               </div>
@@ -81,10 +86,12 @@
                   <h6>
                     c
                   </h6>
-                  <input class="" type="radio" name="<%- i+1 %>" id="<%- i+1 %>c"  option = "c" onclick="checkRad(this)">
+                  <input class="" type="checkbox" name="<%- i %>" value="c" id="<%- i+1 %>c" onclick="checkSend(this)">
                   <label class="list-inline m-1">
-                    <li class="list-inline-item">test</li>
-                    
+                    <ul id="c<%- i %>" class="m-0 p-0 list-inline">
+
+                    </ul>
+
                   </label>
                 </div>
               </div>
@@ -97,10 +104,12 @@
                   <h6>
                     d
                   </h6>
-                  <input class="" type="radio" name="<%- i+1 %>" id="<%- i+1 %>d"  option = "d" onclick="checkRad(this)">
+                  <input class="" type="checkbox" name="<%- i %>" value="d" id="<%- i+1 %>d" onclick="checkSend(this)">
                   <label class="list-inline m-1">
-                    <li class="list-inline-item">test</li>
-                   
+                    <ul id="d<%- i %>" class="m-0 p-0 list-inline">
+
+                    </ul>
+
                   </label>
                 </div>
               </div>

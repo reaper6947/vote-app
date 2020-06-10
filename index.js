@@ -17,13 +17,13 @@ const Chat = require("./model/chatschema");
 const checkHttps = require("./route/httpsUpgrade");
 //app.all('*', checkHttps)
 
-// Specify a directory to serve static files
+// Specify a directory to serve static files and rendering using ejs
 app.use(express.static("public"));
-app.get("/", function (req, res) {
-  res.render(`${path.join(__dirname + "/public")}`);
-});
-
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "/public"));
+app.get("/", function (req, res) {
+  res.render("index");
+});
 
 var usersArr = [];
 io.sockets.on("connection", function (socket) {
@@ -49,23 +49,8 @@ io.sockets.on("connection", function (socket) {
     io.emit("users", usersArr);
   });
 
-  /*
-  //sends messages and saves them
-  socket.on("chat_message", function (message) {
-    io.emit("chat_message", "" + socket.username + ": " + message);
-    connect.then((db) => {
-      let chatMessage = new Chat({
-        message: message,
-        username: socket.username,
-      });
-      chatMessage.save();
-    });
-  });
-
-  */
-  /*
-//sends the previous messages to client
-  app.get("/chat", (req, res) => {
+  //sends the previous messages to client
+  app.get("/votedata", (req, res) => {
     res.setHeader("Content-Type", "application/json");
     res.statusCode = 200;
     connect.then((db) => {
@@ -73,15 +58,62 @@ io.sockets.on("connection", function (socket) {
         res.json(chat);
       });
     });
-    
   });
-*/
-socket.on("checked", function (data) {
-  io.emit("checked", data);
-});
-  
-  
-  
+
+  //saves or deletes data objects
+  const dbsave = async function (obj) {
+    
+
+    if (obj.add === true) {
+
+
+      connect.then((db) => {
+        Chat.exists({
+          question: obj.question,
+          name: obj.name,
+          option: obj.option,
+        }).then((exists) => {
+        //  console.log("exists");
+          if (!exists) {
+            let voteObj = new Chat({
+              question: obj.question,
+              name: obj.name,
+              option: obj.option,
+            });
+           // console.log("saved");
+            voteObj.save();
+          }
+        });
+      });
+      /*
+      connect.then((db) => {
+        let voteObj = new Chat({
+          question: obj.question,
+          name: obj.name,
+          option: obj.option,
+        });
+        voteObj.save();
+        //  console.log("saved");
+      });
+      */
+    } else {
+      Chat.deleteOne(
+        { question: obj.question, name: obj.name, option: obj.option },
+        function (err) {
+          if (err) return console.log(err);
+          // deleted at most one tank document
+        }
+      );
+      // console.log("deleted");
+    }
+  };
+
+  socket.on("checked", function (data) {
+    //  const mongoDat = await Chat.find({ question: data.question });
+    dbsave(data);
+    socket.broadcast.emit("checked", data);
+  });
+
   app.get("/set/user", function (req, res) {
     res.status(200).sendFile(path.join(__dirname, "public", "user.html"));
   });

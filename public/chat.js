@@ -1,70 +1,84 @@
-var socket = io.connect("localhost:3000");
-var formEl = document.getElementById("chatForm");
-var textInputEl = document.getElementById("txt");
-var messagesEl = document.getElementById("messages-ul");
+var socket = io.connect();
 var typingEl = document.getElementById("main-head-i");
 var usersNo = document.getElementById("user-txt");
-var submitBtn = document.getElementById("btn-submit");
 var toastDiv = document.getElementById("joinedToast");
 //gets previous messsages from server
 
-/*
+
 function getChats() {
-  fetch("/chat")
+  fetch("/votedata")
     .then((data) => {
       return data.json();
     })
     .then((json) => {
       json.map((data) => {
-        child = document.createElement("li");
-        //console.log(data);
-        child.classList.add(
-          "list-group-item",
-          "list-group-item-dark",
-          "overflow-auto",
-          "d-flex",
-          "border-0",
-          "message-cl"
+        const li = document.createElement("li");
+        li.classList.add("list-inline-item","m-0","p-0");
+        li.setAttribute(
+          "id",
+          `${data.name} ` + "-" + `${data.option}${data.question}`
         );
-        child.innerHTML = `${data.username}:${data.message}`;
-        messagesEl.appendChild(child);
+        li.textContent = data.name;
+        const mainList = document.getElementById(`${data.option}${data.question}`);
+      return  mainList.appendChild(li);
       });
     });
 }
-*/
 
-//getChats();
+
+getChats();
 
 //sends info about option clicked
-const checkRad = function (item) {
-  class question {
-    constructor(number) {
-      this.number = number;
-      (this.a = []), (this.b = []), (this.c = []), (this.d = []);
+const checkSend = function (item) {
+  class questionObj {
+    constructor(question, option, add) {
+      this.name = typingEl.textContent,
+        this.add = add,
+        this.question = question;
+      this.option = option;
     }
   }
 
   if (item.checked) {
-    // console.log(`${item.getAttribute("option")} of question ${item.name}  is checked by ${typingEl.textContent}`);
-    const obj = new question(item.name);
-    if (item.getAttribute("option") === "a") {
-      obj.a.push(typingEl.textContent);
+    // console.log(item);
+    if (!item.classList.contains(`${typingEl.textContent}`)) {
+      let obj = new questionObj(item.name, item.value, true);
+      item.classList.add(`${typingEl.textContent}`);
       socket.emit("checked", obj);
-    } else if (item.getAttribute("option") === "b") {
-      obj.b.push(typingEl.textContent);
+     // console.log(obj);
+    }
+  } else {
+    if (item.classList.contains(`${typingEl.textContent}`)) {
+      let obj = new questionObj(item.name, item.value, false);
+      item.classList.remove(`${typingEl.textContent}`);
       socket.emit("checked", obj);
-    } else if (item.getAttribute("option") === "c") {
-      obj.c.push(typingEl.textContent);
-      socket.emit("checked", obj);
-    } else {
-      obj.d.push(typingEl.textContent);
-      socket.emit("checked", obj);
+    //  console.log(obj);
     }
   }
 };
 
-socket.on("checked", (data) => {
-  console.log(data);
+const checker = function (data) {
+  if (data.add === true) {
+    console.log("true");
+    const li = document.createElement("li");
+    li.classList.add("list-inline-item","m-0","p-0");
+    li.setAttribute(
+      "id",
+      `${data.name} ` + "-" + `${data.option}${data.question}`
+    );
+    li.textContent = data.name;
+    const mainList = document.getElementById(`${data.option}${data.question}`);
+  return  mainList.appendChild(li);
+  } else {
+    let item = document.getElementById(
+      `${data.name} ` + "-" + `${data.option}${data.question}`
+    );
+  return  item.parentNode.removeChild(item);
+  }
+};
+
+socket.on("checked",function (dat)  {
+  checker(dat);
 });
 
 // append text if someone is online
