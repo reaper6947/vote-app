@@ -1,0 +1,108 @@
+#main-div {
+  min-height: 100% !important;
+  background-color: #242526 !important;
+  padding: 0em !important;
+}
+#main-head-li {
+  background-color: #3a3b3c !important;
+  color: aliceblue;
+  border-radius: 0.61803398875em !important ;
+  list-style-type: none;
+  padding: 0 !important;
+}
+#main-head-li i {
+  font-size: 0.77em !important;
+  padding: 0px !important;
+  height: fit-content;
+}
+#user-txt,
+#user-btn {
+  font-size: 0.87em !important;
+}
+
+#user-btn {
+  border-radius: 0.61803398875em !important;
+  outline-width: 0em !important;
+  color: aliceblue !important;
+}
+.list-inline li {
+  font-size: .7em !important;
+  margin-left: 0.3em !important;
+}
+
+
+
+
+.button:hover {
+  background-color: #3e8e41;
+}
+.button:active {
+  /*
+  box-shadow:
+  0 0px 4px -1px rgba(0, 0, 0, 0.35),
+  0 0px 6.2px -1px rgba(0, 0, 0, 0.256),
+  0 0px 7.6px -1px rgba(0, 0, 0, 0.201),
+  0 0px 8.5px -1px rgba(0, 0, 0, 0.17),
+  0 0px 9.1px -1px rgba(0, 0, 0, 0.153),
+  0 0px 9.7px -1px rgba(0, 0, 0, 0.144),
+  0 0px 10.4px -1px rgba(0, 0, 0, 0.135),
+  0 0px 11.4px -1px rgba(0, 0, 0, 0.123),
+  0 0px 13.5px -1px rgba(0, 0, 0, 0.102),
+  0 0px 23px -1px rgba(0, 0, 0, 0.063)
+;
+*/
+transform: translate(7px, -7px);
+
+}
+.input-group-append {
+  border-radius: 0em 2em 2em 0em;
+  background-color: #3a3b3c !important;
+}
+
+
+.joined-cl {
+  background-color: #242526 !important;
+  list-style-type: none;
+}
+.joined-cl i {
+  font-size: 0.77em !important;
+  padding: 0 !important;
+}
+
+
+.toast, .toast-header {
+  background-color: #3a3b3c ;
+}
+.inv {
+  visibility: hidden;
+}
+
+body {
+  background-color: #242526 !important;
+}
+
+html {
+  --scrollbarBG: #3a3b3c;
+  --thumbBG: #90A4AE;
+}
+::-webkit-scrollbar {
+  width: 7px;
+}
+body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG) ;
+  border-radius: 5px;
+  border: 1px solid var(--scrollbarBG);
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: #242526;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
