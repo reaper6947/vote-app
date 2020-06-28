@@ -12,15 +12,23 @@ function getChats() {
     })
     .then((json) => {
       json.map((data) => {
-        const li = document.createElement("li");
-        li.classList.add("list-inline-item","m-0","p-0");
-        li.setAttribute(
-          "id",
-          `${data.name} ` + "-" + `${data.option}${data.question}`
-        );
-        li.textContent = data.name;
-        const mainList = document.getElementById(`${data.option}${data.question}`);
-      return  mainList.appendChild(li);
+        if (data.name === typingEl.textContent) {
+          const item = document.getElementById(`${data.question}${data.option}`);
+          item.checked = true;
+          item.classList.add(`${typingEl.textContent}`);
+         // console.log(`${data.question}${data.option}`);
+        } else {
+          const li = document.createElement("li");
+          li.classList.add("list-inline-item","m-0","p-0");
+          li.setAttribute(
+            "id",
+            `${data.name} ` + "-" + `${data.option}${data.question}`
+          );
+          li.textContent = data.name;
+          const mainList = document.getElementById(`${data.option}${data.question}`);
+        return  mainList.appendChild(li);
+       }
+      
       });
     });
 }
@@ -47,12 +55,12 @@ const checkSend = function (item) {
       socket.emit("checked", obj);
      // console.log(obj);
     }
-  } else {
+  } else if(!item.checked)  {
     if (item.classList.contains(`${typingEl.textContent}`)) {
       let obj = new questionObj(item.name, item.value, false);
       item.classList.remove(`${typingEl.textContent}`);
       socket.emit("checked", obj);
-    //  console.log(obj);
+      console.log(obj);
     }
   }
 };
