@@ -1,4 +1,6 @@
-# Build A Group-Chat App  Using Node.js
+# vote-app
+a simple real-time voting app using socket.io
+
 
 
 ## Running the program
